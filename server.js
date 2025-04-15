@@ -190,4 +190,12 @@ router.route('/reviews')
     }
   });
 
+app.use('/', router);
+
+const PORT = process.env.PORT || 8080; // Define PORT before using it
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+
 module.exports = app; // for testing only
