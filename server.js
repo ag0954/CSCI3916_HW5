@@ -72,14 +72,37 @@ router.post('/signin', async (req, res) => {
 });
 
 router.route('/movies')
-    .get(authJwtController.isAuthenticated,async (req, res) => {
+    .get(authJwtController.isAuthenticated, async (req, res) => {
       try {
-        const movies = await Movie.find();
-        res.json(movies);
-      }catch (error) {
-        res.status(500).json({ success: false, msg: 'Error retrieving movies' });
+        if (req.query.reviews === 'true') {
+          const movies = await Movie.aggregate([
+            {
+              $lookup: {
+                from: 'reviews',
+                localField: '_id',
+                foreignField: 'movieId',
+                as: 'movieReviews'
+              }
+            },
+            {
+              $addFields: {
+                avgRating: { $avg: '$movieReviews.rating' }
+              }
+            },
+            {
+              $sort: { avgRating: -1 }
+            }
+          ]);
+          return res.status(200).json(movies);
+        } else {
+          const movies = await Movie.find();
+          return res.status(200).json(movies);
+        }
+      } catch (error) {
+        return res.status(500).json({ success: false, msg: 'Error retrieving movies', error });
       }
     })
+
     .post(authJwtController.isAuthenticated,async (req, res) =>{
       const { title, releaseDate, genre, actors } = req.body;
       if (!title || !releaseDate || !genre || !actors || !Array.isArray(actors) || actors.length === 0) {
@@ -117,11 +140,8 @@ router.route('/movies/:id')
           },
           {
             $addFields:{
-              avgRating: {$avg: '$movieReviews.rating'}
+              avgRating: {$avg: '$reviews.rating'}
             }
-          },
-          {
-            $sort: {avgRating: -1}
           }
         ]);
         if(!movieWithReviews||movieWithReviews.length === 0){
