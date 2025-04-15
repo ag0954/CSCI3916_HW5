@@ -16,31 +16,36 @@ const movies = [
     title: "Inception",
     releaseDate: 2010,
     genre: "Science Fiction",
-    actors: [{ actorName: "Leonardo DiCaprio", characterName: "Cobb" }]
+    actors: [{ actorName: "Leonardo DiCaprio", characterName: "Cobb" }],
+    imageUrl: 'https://cdn.pixabay.com/photo/2024/04/08/16/54/ai-generated-8683952_1280.jpg'
   },
   {
     title: "The Matrix",
     releaseDate: 1999,
     genre: "Science Fiction",
-    actors: [{ actorName: "Keanu Reeves", characterName: "Neo" }]
+    actors: [{ actorName: "Keanu Reeves", characterName: "Neo" }],
+    imageUrl: 'https://cdn.pixabay.com/photo/2024/04/08/16/54/ai-generated-8683952_1280.jpg'
   },
   {
     title: "The Godfather",
     releaseDate: 1972,
     genre: "Drama",
-    actors: [{ actorName: "Marlon Brando", characterName: "Vito Corleone" }]
+    actors: [{ actorName: "Marlon Brando", characterName: "Vito Corleone" }],
+    imageUrl: 'https://cdn.pixabay.com/photo/2024/04/08/16/54/ai-generated-8683952_1280.jpg'
   },
   {
     title: "Pulp Fiction",
     releaseDate: 1994,
     genre: "Thriller",
-    actors: [{ actorName: "John Travolta", characterName: "Vincent Vega" }]
+    actors: [{ actorName: "John Travolta", characterName: "Vincent Vega" }],
+    imageUrl: 'https://cdn.pixabay.com/photo/2024/04/08/16/54/ai-generated-8683952_1280.jpg'
   },
   {
     title: "The Dark Knight",
     releaseDate: 2008,
     genre: "Action",
-    actors: [{ actorName: "Christian Bale", characterName: "Batman" }]
+    actors: [{ actorName: "Christian Bale", characterName: "Batman" }],
+    imageUrl: 'https://cdn.pixabay.com/photo/2024/04/08/16/54/ai-generated-8683952_1280.jpg'
   }
 ];
 

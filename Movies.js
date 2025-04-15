@@ -29,7 +29,7 @@ const MovieSchema = new Schema({
     actorName: String,
     characterName: String,
   }],
-  imageUrl:{String},
+  imageUrl:{type: String, default:'https://cdn.pixabay.com/photo/2024/04/08/16/54/ai-generated-8683952_1280.jpg'},
 });
 
 
