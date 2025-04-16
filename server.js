@@ -197,26 +197,39 @@ router.route('/reviews')
       res.status(500).json({success: false, msg: 'Error Retrieving Reviews', error: err});
     }
   })
-  .post(authJwtController.isAuthenticated, async(req, res)=>{
-    //we ensure that all reviews have the required fields
-    const{movieId, review, rating} = req.body;
-    if (!movieId|| !review || rating == undefined){
-      return res.status(400).json({success: false, msg: "All fields(movieId, username, review, and rating are required)."});
-    }
-    //make sure that our rating must be a number between 0-5
-    if(rating <0|| rating >5){
-      return res.status(400).json({success: false, msg: "Rating must be between 0 and 5."});
-    }
-    try{
-      //make a new review attaching all required fields
-       const newReview = new Review({movieId, username, review, rating});
-       await newReview.save();
-
-       res.status(201).json({success: true, msg: 'Review created!'});
-    }catch(err){
-      res.status(404).json({success: false, msg: 'Movie Not Found', error: err});
+  .post(authJwtController.isAuthenticated, async (req, res) => {
+    const { movieId, review, rating } = req.body;
+  
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      const username = decoded.username;
+  
+      if (!movieId || !review || rating === undefined) {
+        return res.status(400).json({
+          success: false,
+          msg: "All fields (movieId, review, and rating) are required."
+        });
+      }
+  
+      if (rating < 0 || rating > 5) {
+        return res.status(400).json({ success: false, msg: "Rating must be between 0 and 5." });
+      }
+      const movie = await Movie.findById(movieId);
+      if (!movie) {
+        return res.status(404).json({ success: false, msg: 'Movie not found.' });
+      }
+  
+      const newReview = new Review({ movieId, username, review, rating });
+      await newReview.save();
+  
+      return res.status(201).json({ success: true, msg: 'Review created!' });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, msg: 'Failed to create review', error: err.message });
     }
   });
+  
 
 app.use('/', router);
 
