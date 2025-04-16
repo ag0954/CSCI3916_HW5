@@ -199,8 +199,8 @@ router.route('/reviews')
   })
   .post(authJwtController.isAuthenticated, async(req, res)=>{
     //we ensure that all reviews have the required fields
-    const{movieId, username, review, rating} = req.body;
-    if (!movieId|| !username || !review || rating == undefined){
+    const{movieId, review, rating} = req.body;
+    if (!movieId|| !review || rating == undefined){
       return res.status(400).json({success: false, msg: "All fields(movieId, username, review, and rating are required)."});
     }
     //make sure that our rating must be a number between 0-5
